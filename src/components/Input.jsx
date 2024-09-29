@@ -1,6 +1,7 @@
 const Input = ({ type, name, label, placeholder, required, value, onChange }) => {
 	const handleChange = (e) => {
-		onChange(e.target.value)
+		const newValue = type === 'checkbox' ? e.target.checked : e.target.value
+		onChange(newValue)
 	}
 
 	const renderInput = () => {

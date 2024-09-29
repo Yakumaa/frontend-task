@@ -1,8 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Input from './Input'
 
 const Form = ({ schema }) => {
 	const [formData, setFormData] = useState({})
+
+	useEffect(() => {
+		const initialData = {}
+		schema.fields.forEach((field) => {
+			initialData[field.name] = field.type === 'checkbox' ? false : ''
+		})
+		setFormData(initialData)
+	}, [schema])
 
 	const handleInputChange = (name, value) => {
 		setFormData((prev) => ({
