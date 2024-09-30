@@ -82,11 +82,18 @@
 				"required": true
 			},
 			{
-				"type": "text",
+				"type": "select",
 				"name": "position",
 				"label": "Position Applied For",
 				"placeholder": "Enter the position you're applying for",
-				"required": true
+				"required": true,
+				"options": [
+					{ "value": "frontend", "label": "Frontend Developer" },
+					{ "value": "backend", "label": "Backend Developer" },
+					{ "value": "fullstack", "label": "Fullstack Developer" },
+					{ "value": "qa", "label": "QA Engineer" },
+					{ "value": "pm", "label": "Project Manager" }
+				]
 			},
 			{
 				"type": "file",

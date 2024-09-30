@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import Input from './Input'
+// import Input from './Input'
+import TextInput from './TextInput'
+import TextareaInput from './TextareaInput'
+import CheckboxInput from './CheckboxInput'
+import SelectInput from './SelectInput'
 
 const Form = ({ schema }) => {
 	const [formData, setFormData] = useState({})
@@ -24,6 +28,48 @@ const Form = ({ schema }) => {
 		console.log(formData)
 	}
 
+	const renderInput = (field) => {
+		switch (field.type) {
+			case 'textarea':
+				return (
+					<TextareaInput
+						key={field.name}
+						{...field}
+						value={formData[field.name] || ''}
+						onChange={(value) => handleInputChange(field.name, value)}
+					/>
+				)
+			case 'checkbox':
+				return (
+					<CheckboxInput
+						key={field.name}
+						{...field}
+						value={formData[field.name] || false}
+						onChange={(value) => handleInputChange(field.name, value)}
+					/>
+				)
+			case 'select':
+				return (
+					<SelectInput
+						key={field.name}
+						{...field}
+						value={formData[field.name] || ''}
+						options={field.options}
+						onChange={(value) => handleInputChange(field.name, value)}
+					/>
+				)
+			default:
+				return (
+					<TextInput
+						key={field.name}
+						{...field}
+						value={formData[field.name] || ''}
+						onChange={(value) => handleInputChange(field.name, value)}
+					/>
+				)
+		}
+	}
+
 	return (
 		<div className="grid grid-cols-1 gap-9">
 			<div className="flex flex-col gap-9">
@@ -34,14 +80,15 @@ const Form = ({ schema }) => {
 					<form onSubmit={handleSubmit}>
 						<div className="p-6.5">
 							<div className="mb-4.5 flex flex-col gap-4">
-								{schema.fields.map((field) => (
-									<Input
-										key={field.name}
-										{...field}
-										value={formData[field.name] || ''}
-										onChange={(value) => handleInputChange(field.name, value)}
-									/>
-								))}
+								{schema.fields.map((field) =>
+									// <Input
+									// 	key={field.name}
+									// 	{...field}
+									// 	value={formData[field.name] || ''}
+									// 	onChange={(value) => handleInputChange(field.name, value)}
+									// />
+									renderInput(field)
+								)}
 								<button
 									type="submit"
 									className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
