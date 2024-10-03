@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-// import Input from './Input'
 import TextInput from './TextInput'
 import TextareaInput from './TextareaInput'
 import CheckboxInput from './CheckboxInput'
@@ -29,43 +28,32 @@ const Form = ({ schema }) => {
 	}
 
 	const renderInput = (field) => {
+    const { name, label, type, required, placeholder, options } = field;
+    const commonProps = {
+      name,
+      type,
+      label,
+      required,
+      value: formData[name] || '',
+      onChange: (value) => handleInputChange(name, value),
+    }
+
 		switch (field.type) {
 			case 'textarea':
 				return (
-					<TextareaInput
-						key={field.name}
-						{...field}
-						value={formData[field.name] || ''}
-						onChange={(value) => handleInputChange(field.name, value)}
-					/>
+					<TextareaInput key={name} {...commonProps} placeholder={placeholder} />
 				)
 			case 'checkbox':
 				return (
-					<CheckboxInput
-						key={field.name}
-						{...field}
-						value={formData[field.name] || false}
-						onChange={(value) => handleInputChange(field.name, value)}
-					/>
+					<CheckboxInput key={name} {...commonProps} />
 				)
 			case 'select':
 				return (
-					<SelectInput
-						key={field.name}
-						{...field}
-						value={formData[field.name] || ''}
-						options={field.options}
-						onChange={(value) => handleInputChange(field.name, value)}
-					/>
+					<SelectInput key={name} {...commonProps} options={options} />
 				)
 			default:
 				return (
-					<TextInput
-						key={field.name}
-						{...field}
-						value={formData[field.name] || ''}
-						onChange={(value) => handleInputChange(field.name, value)}
-					/>
+					<TextInput key={name} {...commonProps} placeholder={placeholder} />
 				)
 		}
 	}
@@ -80,15 +68,7 @@ const Form = ({ schema }) => {
 					<form onSubmit={handleSubmit}>
 						<div className="p-6.5">
 							<div className="mb-4.5 flex flex-col gap-4">
-								{schema.fields.map((field) =>
-									// <Input
-									// 	key={field.name}
-									// 	{...field}
-									// 	value={formData[field.name] || ''}
-									// 	onChange={(value) => handleInputChange(field.name, value)}
-									// />
-									renderInput(field)
-								)}
+                {schema.fields.map(renderInput)}
 								<button
 									type="submit"
 									className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
