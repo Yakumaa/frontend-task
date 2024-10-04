@@ -6,25 +6,70 @@ import SelectInput from './SelectInput'
 
 const Form = ({ schema }) => {
 	const [formData, setFormData] = useState({})
+  const [errors, setErrors] = useState({})
 
 	useEffect(() => {
 		const initialData = {}
-		schema.fields.forEach((field) => {
-			initialData[field.name] = field.type === 'checkbox' ? false : ''
-		})
 		setFormData(initialData)
+    setErrors({})
 	}, [schema])
+
+  const validateField = (field, value) => {
+    if (!field.validation) return ''
+
+    const { validation } = field
+    let error = ''
+
+    if (validation.required && !value) {
+      error = `${field.label} is required`
+    } else if (validation.minLength && value.length < validation.minLength) {
+      error = `${field.label} must be at least ${validation.minLength} characters`
+    } else if (validation.maxLength && value.length > validation.maxLength) {
+      error = `${field.label} must be no more than ${validation.maxLength} characters`
+    } else if (validation.pattern && !new RegExp(validation.pattern).test(value)) {
+      error = `${field.label} is not in a valid format`
+    } else if (validation.min && new Date(value) < new Date(validation.min)) {
+      error = `${field.label} must be after ${validation.min}`
+    } else if (validation.max && new Date(value) > new Date(validation.max)) {
+      error = `${field.label} must be before ${validation.max}`
+    } else if (validation.match && value !== formData[validation.match]) {
+    error = `${field.label} must match ${validation.match}`
+    }
+
+    return error
+  }
 
 	const handleInputChange = (name, value) => {
 		setFormData((prev) => ({
 			...prev,
 			[name]: value,
 		}))
+
+    const field = schema.fields.find(f => f.name === name)
+    const error = validateField(field, value)
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }))
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(formData)
+    const newErrors = {}
+    schema.fields.forEach(field => {
+      const error = validateField(field, formData[field.name])
+      if (error) {
+        newErrors[field.name] = error
+      }
+    })
+
+    setErrors(newErrors)
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted:', formData)
+    } else {
+      console.log('Form has errors:', newErrors)
+    }
 	}
 
 	const renderInput = (field) => {
@@ -36,6 +81,7 @@ const Form = ({ schema }) => {
       required,
       value: formData[name] || '',
       onChange: (value) => handleInputChange(name, value),
+      error: errors[name],
     }
 
 		switch (field.type) {

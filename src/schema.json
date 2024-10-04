@@ -7,28 +7,43 @@
 				"name": "firstname",
 				"label": "First name",
 				"placeholder": "Enter your first name",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 2,
+          "maxLength": 50
+        }
 			},
 			{
 				"type": "text",
 				"name": "lastname",
 				"label": "Last name",
 				"placeholder": "Enter your last name",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 2,
+          "maxLength": 50
+        }
 			},
 			{
 				"type": "email",
 				"name": "email",
 				"label": "Email",
 				"placeholder": "Enter your email",
-				"required": true
+				"required": true,
+        "validation": {
+          "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        }
 			},
 			{
 				"type": "textarea",
 				"name": "message",
 				"label": "Message",
 				"placeholder": "Enter your message",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 10,
+          "maxLength": 500
+        }
 			}
 		]
 	},
@@ -40,27 +55,43 @@
 				"name": "username",
 				"label": "Username",
 				"placeholder": "Choose a username",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 3,
+          "maxLength": 20,
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
 			},
 			{
 				"type": "password",
 				"name": "password",
 				"label": "Password",
 				"placeholder": "Enter your password",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 8
+        }
 			},
 			{
 				"type": "date",
 				"name": "birthdate",
 				"label": "Date of Birth",
-				"required": true
+				"required": true,
+        "validation": {
+          "min": "1900-01-01",
+          "max": "2008-12-31"
+        }
 			},
 			{
 				"type": "tel",
 				"name": "phone",
 				"label": "Phone Number",
 				"placeholder": "Enter your phone number",
-				"required": false
+				"required": false,
+        "validation": {
+          "minLength": 10,
+          "pattern": "^\\+?[1-9]\\d{1,14}$"
+        }
 			}
 		]
 	},
@@ -72,14 +103,21 @@
 				"name": "fullName",
 				"label": "Full Name",
 				"placeholder": "Enter your full name",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 2,
+          "maxLength": 100
+        }
 			},
 			{
 				"type": "email",
 				"name": "email",
 				"label": "Email",
 				"placeholder": "Enter your email",
-				"required": true
+				"required": true,
+        "validation": {
+          "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        }
 			},
 			{
 				"type": "select",
@@ -106,7 +144,11 @@
 				"name": "coverLetter",
 				"label": "Cover Letter",
 				"placeholder": "Enter your cover letter",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 50,
+          "maxLength": 500
+        }
 			}
 		]
 	},
@@ -118,28 +160,41 @@
 				"name": "username",
 				"label": "Username",
 				"placeholder": "Choose a username",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 3,
+          "maxLength": 20
+        }
 			},
 			{
 				"type": "email",
 				"name": "email",
 				"label": "Email",
 				"placeholder": "Enter your email",
-				"required": true
+				"required": true,
+        "validation": {
+          "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        }
 			},
 			{
 				"type": "password",
 				"name": "password",
 				"label": "Password",
 				"placeholder": "Enter your password",
-				"required": true
+				"required": true,
+        "validation": {
+          "minLength": 8  
+        }
 			},
 			{
 				"type": "password",
 				"name": "confirmPassword",
 				"label": "Confirm Password",
 				"placeholder": "Confirm your password",
-				"required": true
+				"required": true,
+        "validation": {
+          "match": "password"
+        }
 			},
 			{
 				"type": "checkbox",
@@ -157,7 +212,10 @@
 				"name": "email",
 				"label": "Email",
 				"placeholder": "Enter your email",
-				"required": true
+				"required": true,
+        "validation": {
+          "pattern": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        }
 			},
 			{
 				"type": "password",
