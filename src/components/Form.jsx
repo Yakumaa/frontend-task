@@ -20,22 +20,55 @@ const Form = ({ schema }) => {
     const { validation } = field
     let error = ''
 
-    if (validation.required && !value) {
-      error = `${field.label} is required`
-    } else if (validation.minLength && value.length < validation.minLength) {
-      error = `${field.label} must be at least ${validation.minLength} characters`
-    } else if (validation.maxLength && value.length > validation.maxLength) {
-      error = `${field.label} must be no more than ${validation.maxLength} characters`
-    } else if (validation.pattern && !new RegExp(validation.pattern).test(value)) {
-      error = `${field.label} is not in a valid format`
-    } else if (validation.min && new Date(value) < new Date(validation.min)) {
-      error = `${field.label} must be after ${validation.min}`
-    } else if (validation.max && new Date(value) > new Date(validation.max)) {
-      error = `${field.label} must be before ${validation.max}`
-    } else if (validation.match && value !== formData[validation.match]) {
-    error = `${field.label} must match ${validation.match}`
+    switch (field.type) {
+      case 'text':
+        if (validation.minLength && value.length < validation.minLength) {
+          error = `${field.label} must be at least ${validation.minLength} characters`
+        } else if (validation.maxLength && value.length > validation.maxLength) {
+          error = `${field.label} must be no more than ${validation.maxLength} characters`
+        } else if (validation.pattern && !new RegExp(validation.pattern).test(value)) {
+          error = `${field.label} is not in a valid format`
+        }
+        break
+      case 'textarea':
+        if (validation.minLength && value.length < validation.minLength) {
+          error = `${field.label} must be at least ${validation.minLength} characters`
+        } else if (validation.maxLength && value.length > validation.maxLength) {
+          error = `${field.label} must be no more than ${validation.maxLength} characters`
+        }
+        break
+      case 'email':
+        if (validation.pattern && !new RegExp(validation.pattern).test(value)) {
+          error = `${field.label} is not in a valid format`
+        }
+        break
+      case 'date':
+        if (validation.min && new Date(value) < new Date(validation.min)) {
+          error = `${field.label} must be after ${validation.min}`
+        } else if (validation.max && new Date(value) > new Date(validation.max)) {
+          error = `${field.label} must be before ${validation.max}`
+        }
+        break
+      case 'tel':
+        if (validation.pattern && !new RegExp(validation.pattern).test(value)) {
+          error = `${field.label} is not in a valid format`
+        }
+        else if(validation.minLength && value.length < validation.minLength) {
+          error = `${field.label} must be at least ${validation.minLength} characters`
+        }
+        break
+      case 'password':
+        if (validation.minLength && value.length < validation.minLength) {
+          error = `${field.label} must be at least ${validation.minLength} characters`
+        } else if (validation.maxLength && value.length > validation.maxLength) {
+          error = `${field.label} must be no more than ${validation.maxLength} characters`
+        } else if (validation.pattern && !new RegExp(validation.pattern).test(value)) {
+          error = `${field.label} is not in a valid format`
+        } else if (validation.match && value !== formData[validation.match]) {
+          error = `${field.label} must match ${validation.match}`
+        }
+        break
     }
-
     return error
   }
 
